@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- 🔹 DASHBOARD CARDS -->
+<div class="row mb-4">
+
+    <!-- Total Employees -->
+    <div class="col-md-4">
+        <div class="card text-white p-3 shadow"
+             style="background: linear-gradient(45deg,#3b82f6,#6366f1); border-radius:15px;">
+            <h6>Total Employees</h6>
+            <h2>{{ total_count }}</h2>
+        </div>
+    </div>
+
+    <!-- Active Employees -->
+    <div class="col-md-4">
+        <div class="card text-white p-3 shadow"
+             style="background: linear-gradient(45deg,#10b981,#059669); border-radius:15px;">
+            <h6>Active Employees</h6>
+            <h2>{{ total_count }}</h2>
+        </div>
+    </div>
+
+    <!-- New Employees -->
+    <div class="col-md-4">
+        <div class="card text-white p-3 shadow"
+             style="background: linear-gradient(45deg,#f59e0b,#d97706); border-radius:15px;">
+            <h6>New Employees (Last 7 Days)</h6>
+            <h2>+{{ new_count }}</h2>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- 🔹 MAIN CARD -->
+<div class="card p-4 shadow-lg" style="border-radius:15px;">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold">
+            <i class="bi bi-people"></i> Employee List
+        </h4>
+
+        <a href="{% url 'employee_create' %}" class="btn btn-success">
+            <i class="bi bi-plus-lg"></i> Add Employee
+        </a>
+    </div>
+
+    <!-- 🔍 SEARCH -->
+    <form method="GET" class="mb-3">
+        <div class="input-group">
+            <span class="input-group-text bg-dark text-white">
+                <i class="bi bi-search"></i>
+            </span>
+            <input type="text"
+                   name="q"
+                   class="form-control"
+                   placeholder="Search employees..."
+                   value="{{ query }}">
+        </div>
+    </form>
+
+    <!-- 📋 TABLE -->
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Age</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for employee in employees %}
+                <tr>
+
+                    <td>{{ employee.id }}</td>
+
+                    <td>
+                        <strong>{{ employee.name }}</strong>
+                    </td>
+
+                    <td>{{ employee.email }}</td>
+
+                    <td>
+                        <span class="badge bg-info text-dark px-3 py-2">
+                            {{ employee.age }}
+                        </span>
+                    </td>
+
+                    <td class="text-center">
+
+                        <!-- Edit -->
+                        <a href="{% url 'employee_update' employee.id %}"
+                           class="btn btn-warning btn-sm">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+
+                        <!-- Delete -->
+                        <a href="{% url 'employee_delete' employee.id %}"
+                           class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i>
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-4">
+                        🚫 No employees found
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card p-4">
+
+    <h3>Employee Details</h3>
+
+    <p><strong>Name:</strong> {{ employee.name }}</p>
+    <p><strong>Email:</strong> {{ employee.email }}</p>
+    <p><strong>Age:</strong> {{ employee.age }}</p>
+
+    <a href="{% url 'employee_list' %}" class="btn btn-secondary">Back</a>
+
+</div>
+
+{% endblock %}
